@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.contactapp.data.models.Contact
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ContactDAO {
@@ -18,4 +19,7 @@ interface ContactDAO {
 
     @Delete
     suspend fun delete(contact: Contact)
+
+    @Query("SELECT * FROM contacts")
+    fun getAllContacts(): Flow<List<Contact>>
 }
