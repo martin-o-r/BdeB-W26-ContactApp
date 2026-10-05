@@ -27,8 +27,8 @@ interface ContactDAO {
 
     @Query(
         """
-            SELECT * FROM contacts WHERE contactId = :conctactId
+            SELECT * FROM contacts WHERE contactId = :id
         """
     )
-    suspend fun getContact(contactId: Int)
+    suspend fun getContactById(id: Int)
 }

@@ -3,17 +3,12 @@ package com.example.contactapp.viewModels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Delete
-import androidx.room.Index
-import androidx.room.Insert
-import androidx.room.Update
 import com.example.contactapp.data.models.Contact
 import com.example.contactapp.data.source.ContactDAO
 import com.example.contactapp.data.source.ContactDB
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -37,5 +32,9 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
 
     fun deleteContact(contact: Contact) = viewModelScope.launch(Dispatchers.IO) {
         dao.delete(contact)
+    }
+
+    fun getContact(contactId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        dao.getContactById(contactId)
     }
 }
