@@ -20,6 +20,15 @@ interface ContactDAO {
     @Delete
     suspend fun delete(contact: Contact)
 
-    @Query("SELECT * FROM contacts")
+    @Query("""
+        SELECT * FROM contacts
+    """)
     fun getAllContacts(): Flow<List<Contact>>
+
+    @Query(
+        """
+            SELECT * FROM contacts WHERE contactId = :conctactId
+        """
+    )
+    suspend fun getContact(contactId: Int)
 }

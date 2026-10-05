@@ -1,8 +1,12 @@
-package com.example.contactapp.data.viewModels
+package com.example.contactapp.viewModels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.Delete
+import androidx.room.Index
+import androidx.room.Insert
+import androidx.room.Update
 import com.example.contactapp.data.models.Contact
 import com.example.contactapp.data.source.ContactDAO
 import com.example.contactapp.data.source.ContactDB

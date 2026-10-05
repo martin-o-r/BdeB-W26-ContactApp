@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import com.example.contactapp.data.viewModels.ContactViewModel
+import com.example.contactapp.viewModels.ContactViewModel
 import com.example.contactapp.ui.theme.ContactAppTheme
 
 class MainActivity : ComponentActivity() {
