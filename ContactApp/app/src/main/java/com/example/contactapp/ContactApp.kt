@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.example.contactapp.data.models.Contact
+import com.example.contactapp.data.source.sampleContacts
 import com.example.contactapp.viewModels.ContactViewModel
 import com.example.contactapp.screens.ShowContactListScreen
 import com.example.contactapp.screens.ShowEditContactScreen
@@ -23,7 +24,8 @@ import com.example.contactapp.screens.Screens
 fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
     var screenCurrent: Screens by remember { mutableStateOf(Screens.LIST_CONTACTS) }
     var selectedContactId : Int? by remember { mutableStateOf<Int?>(null)}
-    val contacts by contactVM.contacts.collectAsState()
+    //val contacts by contactVM.contacts.collectAsState() // vrai base de donnees
+    val contacts = sampleContacts // sample pour pratiquer l'affichage
 
     when (screenCurrent) {
         Screens.LIST_CONTACTS -> ShowContactListScreen(
@@ -39,8 +41,7 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
         )
 
         Screens.EDIT_CONTACT -> {
-            // TODO : fetch the database to return a contact from an id
-            var contact: Contact by remember {mutableStateOf(null)}
+            val contact : Contact? = contacts.find { it.contactId == selectedContactId }
 
             // TODO : add the save button
             ShowEditContactScreen(

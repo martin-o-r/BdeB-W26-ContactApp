@@ -24,11 +24,4 @@ interface ContactDAO {
         SELECT * FROM contacts
     """)
     fun getAllContacts(): Flow<List<Contact>>
-
-    @Query(
-        """
-            SELECT * FROM contacts WHERE contactId = :id
-        """
-    )
-    suspend fun getContactById(id: Int)
 }

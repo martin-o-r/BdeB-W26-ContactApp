@@ -20,9 +20,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices.PIXEL_9
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.contactapp.data.models.Contact
+import com.example.contactapp.data.source.sampleContacts
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,16 +56,22 @@ fun ShowContactListScreen(contacts: List<Contact>, onAddClicked: () -> Unit,onCo
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(items = contacts) { contact ->
                 Row(
-                    modifier = Modifier.clickable() {
-                        onContactClicked(contact.contactId)
-                    }
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable() { onContactClicked(contact.contactId) }
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         // TODO : add the image of the contact
-                        Text("${contact.prenom} ${contact.nom}")
+                        Text(
+                            text = "${contact.prenom} ${contact.nom}",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                        )
                         Text(contact.telephone)
                     }
-                    if (contact.favori == true) Text("★", Modifier.padding(16.dp))
+                    if (contact.favori == true) Text("★")
                 }
                 HorizontalDivider(
                     Modifier,
@@ -71,4 +83,12 @@ fun ShowContactListScreen(contacts: List<Contact>, onAddClicked: () -> Unit,onCo
     }
 }
 
-
+@Preview(showBackground = true, showSystemUi = true, device = PIXEL_9, name = "Contact list test")
+@Composable
+fun ShowContactListScreenPreview() {
+    ShowContactListScreen(
+        contacts = sampleContacts,
+        onAddClicked = {},
+        onContactClicked = {}
+    )
+}
