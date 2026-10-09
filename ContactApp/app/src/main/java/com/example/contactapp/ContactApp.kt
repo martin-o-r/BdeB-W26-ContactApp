@@ -7,7 +7,6 @@ https://www.baeldung.com/kotlin/when
 package com.example.contactapp
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,7 +17,7 @@ import com.example.contactapp.data.source.sampleContacts
 import com.example.contactapp.viewModels.ContactViewModel
 import com.example.contactapp.screens.ShowContactListScreen
 import com.example.contactapp.screens.ShowEditContactScreen
-import com.example.contactapp.screens.Screens
+import com.example.contactapp.ui.Screens
 
 @Composable
 fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
@@ -41,12 +40,16 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
         )
 
         Screens.EDIT_CONTACT -> {
+            // on cherche le contact approprie selon le id
             val contact : Contact? = contacts.find { it.contactId == selectedContactId }
 
-            // TODO : add the save button
+            // TODO : add cancel save button
             ShowEditContactScreen(
                 contact,
                 onCancelClicked = {
+                    screenCurrent = Screens.LIST_CONTACTS
+                },
+                onNewContactSaved = {
                     screenCurrent = Screens.LIST_CONTACTS
                 },
                 modifier = modifier

@@ -24,3 +24,5 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+// TODO : for contact images, make a fun, it has to extract the first letter and put it in a box... stlye the box to make it round!!!! + colors
