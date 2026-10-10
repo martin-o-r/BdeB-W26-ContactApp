@@ -1,14 +1,23 @@
 package com.example.contactapp.screens
 
+import android.R
+import android.graphics.Paint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -62,8 +71,26 @@ fun ShowContactListScreen(contacts: List<Contact>, onAddClicked: () -> Unit,onCo
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        // TODO : add the image of the contact
+                    Box(
+                        modifier = Modifier
+                            .size(50.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.primary,
+                                shape = CircleShape
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = contact.prenom.first().uppercase(),
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
+                        )
+                    }
+                    Column(
+                        modifier = Modifier.weight(1f)
+                            .padding(start = 16.dp)
+                    ) {
                         Text(
                             text = "${contact.prenom} ${contact.nom}",
                             fontWeight = FontWeight.Bold,
@@ -71,7 +98,11 @@ fun ShowContactListScreen(contacts: List<Contact>, onAddClicked: () -> Unit,onCo
                         )
                         Text(contact.telephone)
                     }
-                    if (contact.favori == true) Text("★")
+                    if (contact.favori == true) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Contact favori")
+                    }
                 }
                 HorizontalDivider(
                     Modifier,

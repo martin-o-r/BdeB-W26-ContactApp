@@ -5,11 +5,11 @@ import com.example.contactapp.data.models.Contact
 // liste generee par IA pour tester le UI avant d'implementer DB Room
 
 val sampleContacts = listOf(
-    Contact(nom = "Tremblay", prenom = "Julie", telephone = "514-555-0101", courriel = "julie.tremblay@example.com", adresse = "123 rue Sainte-Catherine, Montréal", age = 28, favori = true, photo = null),
-    Contact(nom = "Gagnon", prenom = "Marc", telephone = "514-555-0102", courriel = "marc.gagnon@example.com", adresse = "45 avenue du Parc, Montréal", age = 35, favori = false, photo = null),
-    Contact(nom = "Roy", prenom = "Sophie", telephone = "438-555-0103", courriel = "sophie.roy@example.com", adresse = "78 rue Saint-Denis, Montréal", age = 31, favori = true, photo = null),
-    Contact(nom = "Côté", prenom = "Alexandre", telephone = "514-555-0104", courriel = "alex.cote@example.com", adresse = "210 boulevard Saint-Laurent, Montréal", age = 42, favori = false, photo = null),
-    Contact(nom = "Bouchard", prenom = "Émilie", telephone = "450-555-0105", courriel = "emilie.bouchard@example.com", adresse = "9 rue des Érables, Laval", age = 26, favori = false, photo = null),
+    Contact(1,nom = "Tremblay", prenom = "Julie", telephone = "514-555-0101", courriel = "julie.tremblay@example.com", adresse = "123 rue Sainte-Catherine, Montréal", age = 28, favori = true, photo = null),
+    Contact(2,nom = "Gagnon", prenom = "Marc", telephone = "514-555-0102", courriel = "marc.gagnon@example.com", adresse = "45 avenue du Parc, Montréal", age = 35, favori = false, photo = null),
+    Contact(3, nom = "Roy", prenom = "Sophie", telephone = "438-555-0103", courriel = "sophie.roy@example.com", adresse = "78 rue Saint-Denis, Montréal", age = 31, favori = true, photo = null),
+    Contact(4, nom = "Côté", prenom = "Alexandre", telephone = "514-555-0104", courriel = "alex.cote@example.com", adresse = "210 boulevard Saint-Laurent, Montréal", age = 42, favori = false, photo = null),
+    Contact(5, nom = "Bouchard", prenom = "Émilie", telephone = "450-555-0105", courriel = "emilie.bouchard@example.com", adresse = "9 rue des Érables, Laval", age = 26, favori = false, photo = null),
     Contact(nom = "Gauthier", prenom = "Nicolas", telephone = "514-555-0106", courriel = "nicolas.gauthier@example.com", adresse = "560 rue Sherbrooke Ouest, Montréal", age = 39, favori = true, photo = null),
     Contact(nom = "Morin", prenom = "Isabelle", telephone = "438-555-0107", courriel = "isabelle.morin@example.com", adresse = "32 rue Principale, Longueuil", age = 45, favori = false, photo = null),
     Contact(nom = "Lavoie", prenom = "Philippe", telephone = "514-555-0108", courriel = "philippe.lavoie@example.com", adresse = "88 chemin de la Côte-des-Neiges, Montréal", age = 33, favori = false, photo = null),
