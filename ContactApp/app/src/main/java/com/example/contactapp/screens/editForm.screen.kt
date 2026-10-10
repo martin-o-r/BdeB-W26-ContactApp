@@ -46,9 +46,12 @@ import com.example.contactapp.ui.components.AlertDialogConfirm
 fun ShowEditContactScreen(
     contact: Contact?,
     onCancelClicked: () -> Unit,
-    onContactSaved: () -> Unit,
-    onDeleteContact: () -> Unit,
+    onContactSaved: (Contact) -> Unit,
+    onDeleteContact: (Int) -> Unit,
     modifier: Modifier = Modifier) {
+
+    // if the contact "exist", then his infos can be shown, else it is to add new contact
+    val isExistingContact = contact != null
 
     // contact data states
     var firstName: String = contact?.prenom ?: ""
@@ -72,12 +75,12 @@ fun ShowEditContactScreen(
     }
 
     var openDeleteAlertDialog by remember {mutableStateOf(false)}
-    if (openDeleteAlertDialog) {
+    if (openDeleteAlertDialog && contact != null) {
         AlertDialogConfirm(
             onDismissRequest = { openDeleteAlertDialog = false},
-            onConfirmation = { onDeleteContact() },
+            onConfirmation = { onDeleteContact(contact.contactId) },
             dialogTitle = "Suppression du contact",
-            dialogText = "Êtes-vous certain de vouloir supprimer le contact?"
+            dialogText = "Êtes-vous certain de vouloir supprimer ${contact.prenom} ${contact.nom} des contacts?"
         )
     }
 
@@ -87,10 +90,10 @@ fun ShowEditContactScreen(
             TopAppBar(
                 title = { Text("Contact App") },
                 actions = {
-                    IconButton(
-                        onClick = {openDeleteAlertDialog = true}
-                    ) {
-                        Icon(Icons.Default.Delete, contentDescription = "Supprimer le contact")
+                    if (isExistingContact) {
+                        IconButton( onClick = { openDeleteAlertDialog = true } ) {
+                            Icon(Icons.Default.Delete, contentDescription = "Supprimer le contact")
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -119,11 +122,18 @@ fun ShowEditContactScreen(
                     }
 
                     FilledTonalButton(onClick = {
-                        /*TODO
-                        *  ce qui ce passe lorsqu'on sauvegarde et retourner vers la liste de contacts*/
-                        // creer nouveau contact pour l'enregistrer
-                        // on doit envoyer un contact dans le contactApp
-                        onContactSaved()
+                        val savedContact = Contact(
+                            contactId = contact?.contactId ?: 0,
+                            prenom = firstName,
+                            nom = lastName,
+                            telephone = phoneNumber,
+                            courriel = email,
+                            adresse = address,
+                            age = age.toIntOrNull(),
+                            favori = isFavorite,
+                            photo = null
+                        )
+                        onContactSaved(savedContact)
                     }) {
                         Text("Sauvegarder")
                         Icon(
@@ -144,9 +154,27 @@ fun ShowEditContactScreen(
             .padding(top = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            OutlinedTextField(value = firstName, onValueChange = {firstName = it}, label = {Text("Prénom")}, modifier = Modifier.fillMaxWidth())
-            OutlinedTextField(value = lastName, onValueChange = {lastName = it}, label = {Text("Nom")}, modifier = Modifier.fillMaxWidth())
-            OutlinedTextField(value = phoneNumber, onValueChange = {phoneNumber = it}, label = {Text("Téléphone")}, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(
+                value = firstName,
+                onValueChange = {firstName = it},
+                label = {Text("Prénom")},
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isExistingContact
+            )
+            OutlinedTextField(
+                value = lastName,
+                onValueChange = {lastName = it},
+                label = {Text("Nom")},
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isExistingContact
+            )
+            OutlinedTextField(
+                value = phoneNumber,
+                onValueChange = {phoneNumber = it},
+                label = {Text("Téléphone")},
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isExistingContact
+            )
             OutlinedTextField(value = age, onValueChange = {age = it}, label = {Text("Âge")}, modifier = Modifier.fillMaxWidth())
             OutlinedTextField(value = email, onValueChange = {email = it}, label = {Text("Courriel")}, modifier = Modifier.fillMaxWidth())
             OutlinedTextField(value = address, onValueChange = {address = it}, label = {Text("Adresse")}, modifier = Modifier.fillMaxWidth())

@@ -57,9 +57,12 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
                 onCancelClicked = {
                     screenCurrent = Screens.LIST_CONTACTS
                 },
-                onContactSaved = {
-                    ShowToast(context, "X a été ajouté à la liste de contact")
-                    // TODO : save the contact
+                onContactSaved = { editedContact ->
+                    ShowToast(
+                        context,
+                        "${editedContact.prenom} ${editedContact.nom} a été ajouté à la liste de contact"
+                    )
+                    contactVM.addContact(editedContact)
                     screenCurrent = Screens.LIST_CONTACTS
                 },
                 onDeleteContact = {
