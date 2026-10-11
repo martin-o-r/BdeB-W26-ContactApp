@@ -65,9 +65,11 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
                     contactVM.addContact(editedContact)
                     screenCurrent = Screens.LIST_CONTACTS
                 },
-                onDeleteContact = {
-                    ShowLongToast(context, "X a été supprimé de la liste des contacts")
-                    // TODO : delete the contact
+                onDeleteContact = { contactIdToDelete ->
+                    val contactToDelete = contacts.find { it.contactId == contactIdToDelete }
+
+                    ShowLongToast(context, "${contactToDelete?.prenom} ${contactToDelete?.nom} a été supprimé de la liste des contacts")
+                    contactVM.deleteById(contactIdToDelete)
                     screenCurrent = Screens.LIST_CONTACTS
                 },
                 modifier = modifier

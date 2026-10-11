@@ -24,4 +24,9 @@ interface ContactDAO {
         SELECT * FROM contacts
     """)
     fun getAllContacts(): Flow<List<Contact>>
+
+    @Query("""
+        DELETE FROM contacts WHERE contactId = :id
+    """)
+    fun deleteContactById(id: Int)
 }

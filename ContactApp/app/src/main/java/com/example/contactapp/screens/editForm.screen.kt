@@ -1,6 +1,13 @@
 /*
 https://developer.android.com/develop/ui/compose/components/button
     -> styles differents de bouttons a utiliser dans jetpack compose
+
+https://kotlinlang.org/api/compose-multiplatform/material3/androidx.compose.material3/-outlined-text-field.html
+    -> different ways to use OutlinedFieldText()
+
+https://stackoverflow.com/questions/68573228/how-to-show-error-message-in-outlinedtextfield-in-jetpack-compose
+    -> we can use isError and supportingText to show when there is an "error"
+    -> we need a boolean state to remember when the form is valid to be able to save everything
 * */
 
 package com.example.contactapp.screens
@@ -54,9 +61,9 @@ fun ShowEditContactScreen(
     val isExistingContact = contact != null
 
     // contact data states
-    var firstName: String = contact?.prenom ?: ""
-    var lastName: String = contact?.nom ?: ""
-    var phoneNumber: String = contact?.telephone ?: ""
+    var firstName: String by remember { mutableStateOf(contact?.prenom ?: "") }
+    var lastName: String by remember { mutableStateOf(contact?.nom ?: "") }
+    var phoneNumber: String by remember { mutableStateOf(contact?.telephone ?: "") }
     var email: String by remember { mutableStateOf(contact?.courriel ?: "") }
     var address: String by remember {mutableStateOf(contact?.adresse ?: "")}
     var age: String by remember {mutableStateOf(contact?.age?.toString() ?: "")}
@@ -68,17 +75,29 @@ fun ShowEditContactScreen(
     if (openCancelAlertDialog) {
         AlertDialogConfirm(
             onDismissRequest = { openCancelAlertDialog = false},
-            onConfirmation = { onCancelClicked() },
+            onConfirmation = {
+                openCancelAlertDialog = false
+                onCancelClicked() },
             dialogTitle = "Sortir du formulaire",
             dialogText = "Êtes-vous certain de vouloir sortir du formulaire?"
         )
     }
 
+    // show possible errors in the form
+    var showError by remember {mutableStateOf(false)}
+
+    // Required fields when the contacts already exists
+    val firstNameError: String? = if (!isExistingContact && firstName.isBlank()) "Le  prénom est obligatoire" else null
+
+    // Optional fields
+
     var openDeleteAlertDialog by remember {mutableStateOf(false)}
     if (openDeleteAlertDialog && contact != null) {
         AlertDialogConfirm(
             onDismissRequest = { openDeleteAlertDialog = false},
-            onConfirmation = { onDeleteContact(contact.contactId) },
+            onConfirmation = {
+                openDeleteAlertDialog = false
+                onDeleteContact(contact.contactId) },
             dialogTitle = "Suppression du contact",
             dialogText = "Êtes-vous certain de vouloir supprimer ${contact.prenom} ${contact.nom} des contacts?"
         )
@@ -122,6 +141,7 @@ fun ShowEditContactScreen(
                     }
 
                     FilledTonalButton(onClick = {
+                        showError = true
                         val savedContact = Contact(
                             contactId = contact?.contactId ?: 0,
                             prenom = firstName,
@@ -142,7 +162,6 @@ fun ShowEditContactScreen(
                         )
                     }
                 }
-
             }
         }
     ) { innerPadding ->
@@ -159,7 +178,11 @@ fun ShowEditContactScreen(
                 onValueChange = {firstName = it},
                 label = {Text("Prénom")},
                 modifier = Modifier.fillMaxWidth(),
-                enabled = !isExistingContact
+                enabled = !isExistingContact,
+                isError = showError && firstNameError != null,
+                supportingText = {
+                    if (showError && firstNameError != null) Text(firstNameError)
+                }
             )
             OutlinedTextField(
                 value = lastName,
@@ -175,9 +198,24 @@ fun ShowEditContactScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !isExistingContact
             )
-            OutlinedTextField(value = age, onValueChange = {age = it}, label = {Text("Âge")}, modifier = Modifier.fillMaxWidth())
-            OutlinedTextField(value = email, onValueChange = {email = it}, label = {Text("Courriel")}, modifier = Modifier.fillMaxWidth())
-            OutlinedTextField(value = address, onValueChange = {address = it}, label = {Text("Adresse")}, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(
+                value = age,
+                onValueChange = {age = it},
+                label = {Text("Âge")},
+                modifier = Modifier.fillMaxWidth()
+            )
+            OutlinedTextField(
+                value = email,
+                onValueChange = {email = it},
+                label = {Text("Courriel")},
+                modifier = Modifier.fillMaxWidth()
+            )
+            OutlinedTextField(
+                value = address,
+                onValueChange = {address = it},
+                label = {Text("Adresse")},
+                modifier = Modifier.fillMaxWidth()
+            )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Start,

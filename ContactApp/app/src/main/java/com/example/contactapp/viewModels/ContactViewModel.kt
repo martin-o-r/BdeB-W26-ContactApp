@@ -33,4 +33,8 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
     fun deleteContact(contact: Contact) = viewModelScope.launch(Dispatchers.IO) {
         dao.delete(contact)
     }
+
+    fun deleteById(id: Int) = viewModelScope.launch(Dispatchers.IO) {
+        dao.deleteContactById(id)
+    }
 }
