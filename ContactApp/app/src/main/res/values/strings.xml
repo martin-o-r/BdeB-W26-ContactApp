@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ContactApp</string>
+    <string name="prenomForm">Prénom</string>
+    <string name="nomForm">Nom</string>
+    <string name="telephoneForm">Téléphone</string>
+    <string name="courrielForm">Courriel</string>
+    <string name="ageForm">Âge</string>
+    <string name="adresseForm">Adresse</string>
+    <string name="favoriForm">Favori</string>
+    <string name="annuler">Annuler</string>
+    <string name="sauvegarder">Sauvegarder</string>
 </resources>

@@ -1,7 +1,7 @@
 /*
 https://developer.android.com/develop/ui/compose/quick-guides/content/display-user-input
     -> Dialog() vs AlertDialog() vs Popup()
-    -> Dialog() : cenevas vide qui n'affiche que du text
+    -> Dialog() : canevas vide qui n'affiche que du text
     ->Dialog() : canevas jetpack compose qui bloque l'ecran de l'utilisateur pour lui forcer a faire un choix important
     -> Popup() : ne bloque pas le UI, supplement d'information
 * */

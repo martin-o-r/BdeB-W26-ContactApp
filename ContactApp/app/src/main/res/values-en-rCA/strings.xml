@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ContactApp</string>
+    <string name="prenomForm">FIrst Name</string>
+    <string name="nomForm">Last name</string>
+    <string name="telephoneForm">Phone number</string>
+    <string name="courrielForm">Email</string>
+    <string name="ageForm">Age</string>
+    <string name="adresseForm">Address</string>
+    <string name="favoriForm">Favorite</string>
+    <string name="annuler">Cancel</string>
+    <string name="sauvegarder">Save</string>
+</resources>

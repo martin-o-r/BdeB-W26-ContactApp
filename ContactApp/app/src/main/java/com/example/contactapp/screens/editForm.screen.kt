@@ -41,9 +41,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_9
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.contactapp.R
 import com.example.contactapp.data.models.Contact
 import com.example.contactapp.data.source.sampleContacts
 import com.example.contactapp.ui.components.AlertDialogConfirm
@@ -70,7 +72,7 @@ fun ShowEditContactScreen(
     var isFavorite: Boolean by remember { mutableStateOf(contact?.favori ?: false) }
     // TODO : wait to see how to add a picture
 
-    // ALertDialog states
+    // ALertDialog state to confirm deleting a contact
     var openCancelAlertDialog by remember {mutableStateOf(false)}
     if (openCancelAlertDialog) {
         AlertDialogConfirm(
@@ -133,10 +135,11 @@ fun ShowEditContactScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     FilledTonalButton(onClick = { openCancelAlertDialog = true}) {
-                        Text("Annuler")
+                        Text(stringResource(R.string.annuler))
                         Icon(
                             imageVector = Icons.Default.Cancel,
-                            contentDescription = ""
+                            contentDescription = null,
+                            modifier = Modifier.padding(start = 5.dp)
                         )
                     }
 
@@ -155,10 +158,11 @@ fun ShowEditContactScreen(
                         )
                         onContactSaved(savedContact)
                     }) {
-                        Text("Sauvegarder")
+                        Text(stringResource(R.string.sauvegarder))
                         Icon(
                             imageVector = Icons.Default.Save,
-                            contentDescription = ""
+                            contentDescription = null,
+                            modifier = Modifier.padding(start = 5.dp)
                         )
                     }
                 }
@@ -176,7 +180,7 @@ fun ShowEditContactScreen(
             OutlinedTextField(
                 value = firstName,
                 onValueChange = {firstName = it},
-                label = {Text("Prénom")},
+                label = {Text(stringResource(R.string.prenomForm))},
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !isExistingContact,
                 isError = showError && firstNameError != null,
@@ -187,33 +191,33 @@ fun ShowEditContactScreen(
             OutlinedTextField(
                 value = lastName,
                 onValueChange = {lastName = it},
-                label = {Text("Nom")},
+                label = {Text(stringResource(R.string.nomForm))},
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !isExistingContact
             )
             OutlinedTextField(
                 value = phoneNumber,
                 onValueChange = {phoneNumber = it},
-                label = {Text("Téléphone")},
+                label = {Text(stringResource(R.string.telephoneForm))},
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !isExistingContact
             )
             OutlinedTextField(
                 value = age,
                 onValueChange = {age = it},
-                label = {Text("Âge")},
+                label = {Text(stringResource(R.string.ageForm))},
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = email,
                 onValueChange = {email = it},
-                label = {Text("Courriel")},
+                label = {Text(stringResource(R.string.courrielForm))},
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = address,
                 onValueChange = {address = it},
-                label = {Text("Adresse")},
+                label = {Text(stringResource(R.string.adresseForm))},
                 modifier = Modifier.fillMaxWidth()
             )
             Row(
@@ -221,7 +225,7 @@ fun ShowEditContactScreen(
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(checked = isFavorite, onCheckedChange = {isFavorite = it})
-                Text("Favori")
+                Text(stringResource(R.string.favoriForm))
             }
         }
     }
