@@ -10,4 +10,7 @@
     <string name="favoriForm">Favorite</string>
     <string name="annuler">Cancel</string>
     <string name="sauvegarder">Save</string>
+    <string name="modifier">Modifiy</string>
+    <string name="confirmer">Accept</string>
+    <string name="revenir">Go back</string>
 </resources>

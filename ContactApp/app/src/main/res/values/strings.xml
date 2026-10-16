@@ -9,4 +9,7 @@
     <string name="favoriForm">Favori</string>
     <string name="annuler">Annuler</string>
     <string name="sauvegarder">Sauvegarder</string>
+    <string name="modifier">Modifier</string>
+    <string name="confirmer">Confirmer</string>
+    <string name="revenir">Revenir</string>
 </resources>

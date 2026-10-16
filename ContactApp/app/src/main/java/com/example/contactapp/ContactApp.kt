@@ -10,6 +10,10 @@ https://www.baeldung.com/kotlin/when
 
 package com.example.contactapp
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Preview
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -17,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import com.example.contactapp.data.models.Contact
 import com.example.contactapp.data.source.sampleContacts
 import com.example.contactapp.viewModels.ContactViewModel
@@ -43,12 +48,19 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
     var openContactPreview by remember {mutableStateOf(false)}
     if (openContactPreview) {
         AlertDialogConfirm(
+            icon = Icons.Default.Preview,
             onDismissRequest = {openContactPreview = false},
             onConfirmation = {
                 openContactPreview = false
                 screenCurrent = Screens.EDIT_CONTACT },
-            dialogTitle = "${contact?.prenom} ${contact?.prenom}",
-            dialogText = "${contact?.telephone}"
+            dialogTitle = "${contact?.prenom} ${contact?.nom} ",
+            dialogText = """
+                ${contact?.telephone}
+                ${contact?.courriel}
+                ${contact?.adresse}
+            """.trimIndent(),
+            confirmationText = stringResource(R.string.modifier),
+            dismissText = stringResource(R.string.revenir)
         )
     }
 
@@ -74,7 +86,7 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
             onContactSaved = { editedContact ->
                 ShowToast(
                     context,
-                    "${editedContact.prenom} ${editedContact.nom} a été ajouté à la liste de contact"
+                    message = "${editedContact.prenom} ${editedContact.nom} a été ajouté à la liste de contact"
                 )
                 contactVM.addContact(editedContact)
                 screenCurrent = Screens.LIST_CONTACTS
@@ -82,7 +94,9 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
             onDeleteContact = { contactIdToDelete ->
                 val contactToDelete = contacts.find { it.contactId == contactIdToDelete }
 
-                ShowLongToast(context, "${contactToDelete?.prenom} ${contactToDelete?.nom} a été supprimé de la liste des contacts")
+                ShowLongToast(
+                    context,
+                    message = "${contactToDelete?.prenom} ${contactToDelete?.nom} a été supprimé de la liste des contacts")
                 contactVM.deleteById(contactIdToDelete)
                 screenCurrent = Screens.LIST_CONTACTS
             },

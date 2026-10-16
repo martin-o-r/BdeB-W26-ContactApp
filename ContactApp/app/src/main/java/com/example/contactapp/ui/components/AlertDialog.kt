@@ -18,19 +18,25 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_9
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.contactapp.R
 
 @Composable
 fun AlertDialogConfirm(
+    icon: ImageVector = Icons.Default.Info,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
-    dialogText: String
+    dialogText: String,
+    confirmationText: String = stringResource(R.string.confirmer),
+    dismissText: String = stringResource(R.string.annuler)
 ) {
     AlertDialog(
         icon = {
-            Icon(imageVector = Icons.Default.Info,
+            Icon(imageVector = icon,
                 contentDescription = "Icon d'information")
         },
         title = {
@@ -48,7 +54,7 @@ fun AlertDialogConfirm(
                     onConfirmation()
                 }
             ) {
-                Text("Confirmer")
+                Text(confirmationText)
             }
         },
         dismissButton = {
@@ -57,7 +63,7 @@ fun AlertDialogConfirm(
                     onDismissRequest()
                 }
             ) {
-                Text("Annuler")
+                Text(dismissText)
             }
         }
     )
