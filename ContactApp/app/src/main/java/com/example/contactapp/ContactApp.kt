@@ -29,6 +29,7 @@ import com.example.contactapp.screens.ShowContactListScreen
 import com.example.contactapp.screens.ShowEditContactScreen
 import com.example.contactapp.ui.Screens
 import com.example.contactapp.ui.components.AlertDialogConfirm
+import com.example.contactapp.ui.components.ContactPreviewCard
 import com.example.contactapp.ui.components.ShowLongToast
 import com.example.contactapp.ui.components.ShowToast
 
@@ -47,20 +48,19 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
     // AlertDialog state to show contacts info
     var openContactPreview by remember {mutableStateOf(false)}
     if (openContactPreview) {
-        AlertDialogConfirm(
-            icon = Icons.Default.Preview,
+        ContactPreviewCard(
             onDismissRequest = {openContactPreview = false},
             onConfirmation = {
                 openContactPreview = false
-                screenCurrent = Screens.EDIT_CONTACT },
-            dialogTitle = "${contact?.prenom} ${contact?.nom} ",
-            dialogText = """
+                screenCurrent = Screens.EDIT_CONTACT
+            },
+            title = "${contact?.prenom} ${contact?.nom}",
+            body = """
                 ${contact?.telephone}
                 ${contact?.courriel}
                 ${contact?.adresse}
             """.trimIndent(),
-            confirmationText = stringResource(R.string.modifier),
-            dismissText = stringResource(R.string.revenir)
+            isFavorite = contact?.favori == true
         )
     }
 
