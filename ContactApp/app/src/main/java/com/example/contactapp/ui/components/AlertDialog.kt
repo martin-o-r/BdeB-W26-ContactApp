@@ -26,17 +26,14 @@ import com.example.contactapp.R
 
 @Composable
 fun AlertDialogConfirm(
-    icon: ImageVector = Icons.Default.Info,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
-    dialogText: String,
-    confirmationText: String = stringResource(R.string.confirmer),
-    dismissText: String = stringResource(R.string.annuler)
+    dialogText: String
 ) {
     AlertDialog(
         icon = {
-            Icon(imageVector = icon,
+            Icon(imageVector = Icons.Default.Info,
                 contentDescription = "Icon d'information")
         },
         title = {
@@ -54,7 +51,7 @@ fun AlertDialogConfirm(
                     onConfirmation()
                 }
             ) {
-                Text(confirmationText)
+                Text(stringResource(R.string.confirmer))
             }
         },
         dismissButton = {
@@ -63,7 +60,7 @@ fun AlertDialogConfirm(
                     onDismissRequest()
                 }
             ) {
-                Text(dismissText)
+                Text(stringResource(R.string.annuler))
             }
         }
     )

@@ -37,7 +37,7 @@ import com.example.contactapp.ui.components.ShowToast
 fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
     var screenCurrent: Screens by remember { mutableStateOf(Screens.LIST_CONTACTS) }
     var selectedContactId : Int? by remember { mutableStateOf<Int?>(null)}
-    //val contacts by contactVM.contacts.collectAsState() // vrai base de donnees
+    //val contacts by contactVM.contacts.collectAsState() // vraie base de donnees
     val contacts = sampleContacts // sample pour pratiquer l'affichage
 
     // on cherche le contact approprie selon le id

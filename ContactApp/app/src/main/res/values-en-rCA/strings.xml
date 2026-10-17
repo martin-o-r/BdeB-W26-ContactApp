@@ -13,4 +13,6 @@
     <string name="modifier">Modifiy</string>
     <string name="confirmer">Accept</string>
     <string name="revenir">Go back</string>
+    <string name="camera">Camera</string>
+    <string name="galerie">Gallery</string>
 </resources>

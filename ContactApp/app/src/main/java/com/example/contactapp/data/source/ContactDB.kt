@@ -8,7 +8,7 @@ import com.example.contactapp.data.models.Contact
 
 @Database(
     entities = [Contact::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class ContactDB : RoomDatabase() {

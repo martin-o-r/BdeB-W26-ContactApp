@@ -6,7 +6,6 @@ https://developer.android.com/develop/ui/compose/components/card
 package com.example.contactapp.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,14 +26,12 @@ import androidx.compose.material3.MaterialTheme
 import com.example.contactapp.R
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_9
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import kotlin.math.min
 
 @Composable
 fun ContactPreviewCard(
@@ -53,6 +50,9 @@ fun ContactPreviewCard(
             colors = CardDefaults.elevatedCardColors()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
+
+                // TODO : add the image of the contact at the top of the card
+
                 // Contact name as the title and if favorite
                 Row(
                     modifier = Modifier.fillMaxWidth(),

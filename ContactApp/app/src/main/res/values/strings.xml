@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ContactApp</string>
+    <string name="app_name">Contact App</string>
     <string name="prenomForm">Prénom</string>
     <string name="nomForm">Nom</string>
     <string name="telephoneForm">Téléphone</string>
@@ -12,4 +12,6 @@
     <string name="modifier">Modifier</string>
     <string name="confirmer">Confirmer</string>
     <string name="revenir">Revenir</string>
+    <string name="camera">Caméra</string>
+    <string name="galerie">Galerie</string>
 </resources>

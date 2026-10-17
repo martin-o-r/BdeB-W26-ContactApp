@@ -27,6 +27,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_9
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,6 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.contactapp.data.models.Contact
 import com.example.contactapp.data.source.sampleContacts
+import com.example.contactapp.R
+import com.example.contactapp.ui.components.ContactIconImage
 
 // TODO  : implementer le search bar dans le TopAppBar
 
@@ -44,7 +47,7 @@ fun ShowContactListScreen(contacts: List<Contact>, onAddClicked: () -> Unit,onCo
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("Contact App") },
+                title = { Text(stringResource(R.string.app_name)) },
                 actions = {
                     IconButton(
                         onClick = {onAddClicked()}
@@ -62,6 +65,7 @@ fun ShowContactListScreen(contacts: List<Contact>, onAddClicked: () -> Unit,onCo
     ) { innerPadding ->
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(items = contacts) { contact ->
+                // A row for each contact
                 Row(
                     modifier = Modifier
                         .fillMaxSize()
@@ -69,6 +73,7 @@ fun ShowContactListScreen(contacts: List<Contact>, onAddClicked: () -> Unit,onCo
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    // Contact's icon
                     Box(
                         modifier = Modifier
                             .size(50.dp)
@@ -78,12 +83,9 @@ fun ShowContactListScreen(contacts: List<Contact>, onAddClicked: () -> Unit,onCo
                             ),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(
-                            text = contact.prenom.first().uppercase(),
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp
-                        )
+                        ContactIconImage(
+                            firstName = contact.prenom.first().uppercase(),
+                            letterSize = 30.sp)
                     }
                     Column(
                         modifier = Modifier.weight(1f)

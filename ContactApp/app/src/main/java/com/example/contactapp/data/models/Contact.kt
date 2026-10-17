@@ -14,5 +14,5 @@ data class Contact(
     var adresse: String?,
     var age: Int?,
     var favori: Boolean?,
-    var photo: Int?
+    var photoUri: String?
 )

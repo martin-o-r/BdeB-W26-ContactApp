@@ -12,19 +12,28 @@ https://stackoverflow.com/questions/68573228/how-to-show-error-message-in-outlin
 
 package com.example.contactapp.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -42,13 +51,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_9
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.contactapp.R
 import com.example.contactapp.data.models.Contact
 import com.example.contactapp.data.source.sampleContacts
 import com.example.contactapp.ui.components.AlertDialogConfirm
+import com.example.contactapp.ui.components.ContactIconImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,7 +82,7 @@ fun ShowEditContactScreen(
     var address: String by remember {mutableStateOf(contact?.adresse ?: "")}
     var age: String by remember {mutableStateOf(contact?.age?.toString() ?: "")}
     var isFavorite: Boolean by remember { mutableStateOf(contact?.favori ?: false) }
-    // TODO : wait to see how to add a picture
+    var photoUri: String by remember {mutableStateOf(contact?.photoUri ?: "")}
 
     // ALertDialog state to confirm deleting a contact
     var openCancelAlertDialog by remember {mutableStateOf(false)}
@@ -109,7 +121,7 @@ fun ShowEditContactScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("Contact App") },
+                title = { Text(stringResource(R.string.app_name)) },
                 actions = {
                     if (isExistingContact) {
                         IconButton( onClick = { openDeleteAlertDialog = true } ) {
@@ -154,7 +166,7 @@ fun ShowEditContactScreen(
                             adresse = address,
                             age = age.toIntOrNull(),
                             favori = isFavorite,
-                            photo = null
+                            photoUri = null
                         )
                         onContactSaved(savedContact)
                     }) {
@@ -169,14 +181,46 @@ fun ShowEditContactScreen(
             }
         }
     ) { innerPadding ->
-        // TODO : leave space for pictures and buttons
-
         Column(modifier = Modifier
             .padding(innerPadding)
             .padding(horizontal = 16.dp)
             .padding(top = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)) {
+
+            // Contact's image
+            Box(
+                modifier = Modifier
+                    .size(70.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = CircleShape
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                ContactIconImage(
+                    firstName = firstName,
+                    letterSize = 45.sp
+                )
+            }
+
+            // Buttons for camera or gallery
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.Center) {
+                Button(onClick = {
+                    /*TODO : take me to the camera*/
+                }) {
+                    Text(stringResource(R.string.camera))
+                }
+                Spacer(modifier = Modifier.width(30.dp))
+                Button(onClick = {
+                    /*TODO : take me to the gallery*/
+                }) {
+                    Text(stringResource(R.string.galerie))
+                }
+            }
+
             OutlinedTextField(
                 value = firstName,
                 onValueChange = {firstName = it},
