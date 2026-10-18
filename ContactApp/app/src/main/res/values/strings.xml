@@ -14,4 +14,11 @@
     <string name="revenir">Revenir</string>
     <string name="camera">Caméra</string>
     <string name="galerie">Galerie</string>
+    <string name="annulerFormulaireTitre">Sortir du formulaire</string>
+    <string name="confirmationQuitterFormulaire">Êtes-vous certain de vouloir sortir du formulaire?</string>
+    <string name="suppressionContactFormulaireTitre">Suppression du contact</string>
+    <string name="confirmationSuppressionContact">Êtes-vous certain de vouloir supprimer</string>
+    <string name="ans">ans</string>
+    <string name="contactModifieToast">Le contact a été sauvegardé avec succès.</string>
+    <string name="contactSupprimeToast">Le contact a été supprimé avec succès.</string>
 </resources>

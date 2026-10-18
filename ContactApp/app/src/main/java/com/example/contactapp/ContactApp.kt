@@ -10,11 +10,8 @@ https://www.baeldung.com/kotlin/when
 
 package com.example.contactapp
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Preview
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,12 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.example.contactapp.data.models.Contact
-import com.example.contactapp.data.source.sampleContacts
 import com.example.contactapp.viewModels.ContactViewModel
 import com.example.contactapp.screens.ShowContactListScreen
 import com.example.contactapp.screens.ShowEditContactScreen
 import com.example.contactapp.ui.Screens
-import com.example.contactapp.ui.components.AlertDialogConfirm
 import com.example.contactapp.ui.components.ContactPreviewCard
 import com.example.contactapp.ui.components.ShowLongToast
 import com.example.contactapp.ui.components.ShowToast
@@ -37,13 +32,17 @@ import com.example.contactapp.ui.components.ShowToast
 fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
     var screenCurrent: Screens by remember { mutableStateOf(Screens.LIST_CONTACTS) }
     var selectedContactId : Int? by remember { mutableStateOf<Int?>(null)}
-    //val contacts by contactVM.contacts.collectAsState() // vraie base de donnees
-    val contacts = sampleContacts // sample pour pratiquer l'affichage
+    val contacts by contactVM.contacts.collectAsState()
 
-    // on cherche le contact approprie selon le id
+    // find the user by its id
     val contact : Contact? = contacts.find { it.contactId == selectedContactId }
 
+    // context for toasts
     val context = LocalContext.current
+
+    // toast messages
+    val modifiedContactMessage: String = stringResource(R.string.contactModifieToast)
+    val deletedContactMessage: String = stringResource(R.string.contactSupprimeToast)
 
     // AlertDialog state to show contacts info
     var openContactPreview by remember {mutableStateOf(false)}
@@ -56,6 +55,7 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
             },
             title = "${contact?.prenom} ${contact?.nom}",
             body = """
+                ${contact?.age} ${stringResource(R.string.ans)}
                 ${contact?.telephone}
                 ${contact?.courriel}
                 ${contact?.adresse}
@@ -86,7 +86,7 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
             onContactSaved = { editedContact ->
                 ShowToast(
                     context,
-                    message = "${editedContact.prenom} ${editedContact.nom} a été ajouté à la liste de contact"
+                    message = modifiedContactMessage
                 )
                 contactVM.addContact(editedContact)
                 screenCurrent = Screens.LIST_CONTACTS
@@ -96,7 +96,8 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
 
                 ShowLongToast(
                     context,
-                    message = "${contactToDelete?.prenom} ${contactToDelete?.nom} a été supprimé de la liste des contacts")
+                    message = deletedContactMessage
+                )
                 contactVM.deleteById(contactIdToDelete)
                 screenCurrent = Screens.LIST_CONTACTS
             },

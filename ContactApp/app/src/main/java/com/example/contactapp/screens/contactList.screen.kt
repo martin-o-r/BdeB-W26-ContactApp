@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.example.contactapp.data.models.Contact
 import com.example.contactapp.data.source.sampleContacts
 import com.example.contactapp.R
-import com.example.contactapp.ui.components.ContactIconImage
+import com.example.contactapp.ui.components.ContactAvater
 
 // TODO  : implementer le search bar dans le TopAppBar
 
@@ -74,19 +74,12 @@ fun ShowContactListScreen(contacts: List<Contact>, onAddClicked: () -> Unit,onCo
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Contact's icon
-                    Box(
-                        modifier = Modifier
-                            .size(50.dp)
-                            .background(
-                                color = MaterialTheme.colorScheme.primary,
-                                shape = CircleShape
-                            ),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        ContactIconImage(
-                            firstName = contact.prenom.first().uppercase(),
-                            letterSize = 30.sp)
-                    }
+                    ContactAvater(
+                        photoUri = contact.photoUri,
+                        firstName = contact.prenom,
+                        iconSize = 30.dp
+                    )
+
                     Column(
                         modifier = Modifier.weight(1f)
                             .padding(start = 16.dp)

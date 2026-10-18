@@ -15,4 +15,11 @@
     <string name="revenir">Go back</string>
     <string name="camera">Camera</string>
     <string name="galerie">Gallery</string>
+    <string name="annulerFormulaireTitre">Quit form</string>
+    <string name="confirmationQuitterFormulaire">Are you sure you want to quit the form?</string>
+    <string name="suppressionContactFormulaireTitre">Delete contact</string>
+    <string name="confirmationSuppressionContact">"Are you sure you want to delete "</string>
+    <string name="ans">years old</string>
+    <string name="contactModifieToast">The contact has been sucessfully saved.</string>
+    <string name="contactSupprimeToast">The contact has been succesfully deleted.</string>
 </resources>
