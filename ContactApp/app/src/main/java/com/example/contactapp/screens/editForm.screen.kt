@@ -14,6 +14,7 @@ package com.example.contactapp.screens
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -107,6 +108,14 @@ fun ShowEditContactScreen(
         }
     )
 
+    // Gallery feature
+    val selectedImageUri = remember { mutableStateOf<Uri?>(null) }
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        photoUri = uri
+    }
+
     // ALertDialog state to confirm aborting the form
     var openCancelAlertDialog by remember {mutableStateOf(false)}
     if (openCancelAlertDialog) {
@@ -129,9 +138,7 @@ fun ShowEditContactScreen(
                 openDeleteAlertDialog = false
                 onDeleteContact(contact.contactId) },
             dialogTitle = stringResource(R.string.suppressionContactFormulaireTitre),
-            dialogText = """
-                ${stringResource(R.string.confirmationSuppressionContact)} ${contact.prenom} ${contact.nom}
-            """.trimIndent()
+            dialogText = "${stringResource(R.string.confirmationSuppressionContact)} ${contact.prenom} ${contact.nom}"
         )
     }
 
@@ -193,7 +200,7 @@ fun ShowEditContactScreen(
                             adresse = address,
                             age = age.toIntOrNull(),
                             favori = isFavorite,
-                            photoUri = photoUri.toString()
+                            photoUri = photoUri?.toString()
                         )
                         onContactSaved(savedContact)
                     }) {
@@ -237,7 +244,11 @@ fun ShowEditContactScreen(
                 }
                 Spacer(modifier = Modifier.width(30.dp))
                 Button(onClick = {
-                    /*TODO : take me to the gallery*/
+                    launcher.launch(
+                        PickVisualMediaRequest(
+                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
+                    )
                 }) {
                     Text(stringResource(R.string.galerie))
                 }

@@ -145,13 +145,13 @@ private fun ShowInfo(icon: ImageVector, info: String, age: Boolean = false) {
 @Composable
 fun ContactPreviewCardPreview() {
 
-    val contact: Contact? = Contact(
+    val contact: Contact = Contact(
         prenom = "Martin",
         nom = "Ore Rodriguez",
         telephone = "514 514-5145",
         favori = true,
         courriel = "martin@test.com",
-        adresse = "280 rue Enfer",
+        adresse = "666 rue Enfer",
         age = 29,
         photoUri = null,
     )
