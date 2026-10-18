@@ -15,7 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -30,8 +30,8 @@ import com.example.contactapp.ui.components.ShowToast
 
 @Composable
 fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
-    var screenCurrent: Screens by remember { mutableStateOf(Screens.LIST_CONTACTS) }
-    var selectedContactId : Int? by remember { mutableStateOf<Int?>(null)}
+    var screenCurrent: Screens by rememberSaveable { mutableStateOf(Screens.LIST_CONTACTS) }
+    var selectedContactId : Int? by rememberSaveable { mutableStateOf<Int?>(null)}
     val contacts by contactVM.contacts.collectAsState() // fetch all users from DB
 
     // find the user by its id
@@ -45,7 +45,7 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
     val deletedContactMessage: String = stringResource(R.string.contactSupprimeToast)
 
     // AlertDialog state to show contacts info
-    var openContactPreview by remember {mutableStateOf(false)}
+    var openContactPreview by rememberSaveable {mutableStateOf(false)}
     if (openContactPreview) {
         ContactPreviewCard(
             onDismissRequest = {openContactPreview = false},
@@ -91,8 +91,7 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
                 )
                 contactVM.deleteById(contactIdToDelete)
                 screenCurrent = Screens.LIST_CONTACTS
-            },
-            modifier = modifier
+            }
         )
     }
 }

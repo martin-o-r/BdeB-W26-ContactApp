@@ -109,7 +109,7 @@ fun ShowContactListScreen(
             )
         }
     ) { innerPadding ->
-
+        // Box contiendra la barre de recherche ainsi que la liste complete des contacts
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
@@ -124,7 +124,7 @@ fun ShowContactListScreen(
                         onSearch = {isSearchExpanded = false},
                         expanded = isSearchExpanded,
                         onExpandedChange = {isSearchExpanded = it},
-                        placeholder = {Text("Search contact")},
+                        placeholder = {Text(stringResource(R.string.chercherContact))},
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.PersonSearch,
@@ -154,7 +154,7 @@ fun ShowContactListScreen(
                             .padding(24.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text("No contacts found")
+                        Text(stringResource(R.string.aucunContactTrouve))
                     }
                 } else {
                     LazyColumn() {

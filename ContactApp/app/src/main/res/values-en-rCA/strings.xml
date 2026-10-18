@@ -22,4 +22,6 @@
     <string name="ans">years old</string>
     <string name="contactModifieToast">The contact has been sucessfully saved.</string>
     <string name="contactSupprimeToast">The contact has been succesfully deleted.</string>
+    <string name="chercherContact">Search a contact</string>
+    <string name="aucunContactTrouve">No contact found</string>
 </resources>

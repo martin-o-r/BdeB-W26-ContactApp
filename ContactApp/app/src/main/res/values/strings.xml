@@ -21,4 +21,6 @@
     <string name="ans">ans</string>
     <string name="contactModifieToast">Le contact a été sauvegardé avec succès.</string>
     <string name="contactSupprimeToast">Le contact a été supprimé avec succès.</string>
+    <string name="chercherContact">Chercher un contact</string>
+    <string name="aucunContactTrouve">Aucun contact trouvé</string>
 </resources>
