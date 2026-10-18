@@ -9,37 +9,39 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Directions
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.MaterialTheme
 import com.example.contactapp.R
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_9
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.contactapp.data.models.Contact
 
 @Composable
 fun ContactPreviewCard(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
-    title: String,
-    body: String,
-    isFavorite: Boolean
+    contact: Contact?
     ) {
     Dialog(onDismissRequest = onDismissRequest) {
         ElevatedCard(
@@ -50,29 +52,58 @@ fun ContactPreviewCard(
             colors = CardDefaults.elevatedCardColors()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-
-                // TODO : add the image of the contact at the top of the card
+                // shows the contact photo if available
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 15.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    ContactAvater(
+                        photoUri = contact?.photoUri,
+                        firstName = "${contact?.prenom}",
+                        iconSize = 50.dp
+                    )
+                }
 
                 // Contact name as the title and if favorite
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = title,
+                        text = "${contact?.prenom} ${contact?.nom}",
                         style = MaterialTheme.typography.headlineSmall
                     )
-                    if (isFavorite) {
+                    if (contact?.favori == true) {
                         Icon(imageVector = Icons.Default.Favorite,
                             contentDescription = "Favorite icon")
                     }
                 }
-                Spacer(modifier = Modifier.height(20.dp))
+
                 // Contact information preview
-                Text(
-                    text = body
+                if (contact?.age != null && contact.age!! > 0) ShowInfo(
+                    icon = Icons.Default.Person,
+                    info = "${contact?.age}",
+                    age = true
+                )
+                if(!contact?.telephone.isNullOrBlank()) ShowInfo(
+                    icon = Icons.Default.Phone,
+                    info = "${contact.telephone}"
+                )
+                if (!contact?.courriel.isNullOrBlank()) ShowInfo(
+                    icon = Icons.Default.Email,
+                    info = "${contact.courriel}"
+                )
+                if (!contact?.adresse.isNullOrBlank()) ShowInfo(
+                    icon = Icons.Default.Directions,
+                    info = "${contact.adresse}"
                 )
             }
+
+            // buttons for the dialog : go back | modify
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -93,18 +124,41 @@ fun ContactPreviewCard(
     }
 }
 
+@Composable
+private fun ShowInfo(icon: ImageVector, info: String, age: Boolean = false) {
+    Row(
+        modifier = Modifier
+            .padding(bottom = 5.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = "",
+            modifier = Modifier.padding(end = 5.dp)
+        )
+        if (age){ Text("$info ${stringResource(R.string.ans)}") }
+        else { Text(info) }
+    }
+}
+
 @Preview(showBackground = true, showSystemUi = true, device = PIXEL_9, name = "Contact preview card")
 @Composable
 fun ContactPreviewCardPreview() {
+
+    val contact: Contact? = Contact(
+        prenom = "Martin",
+        nom = "Ore Rodriguez",
+        telephone = "514 514-5145",
+        favori = true,
+        courriel = "martin@test.com",
+        adresse = "280 rue Enfer",
+        age = 29,
+        photoUri = null,
+    )
+
     ContactPreviewCard(
         onDismissRequest = {},
         onConfirmation = {},
-        title = "Test Tests",
-        body = """
-                514 111-1111
-                courriel
-                adresse
-            """.trimIndent(),
-        isFavorite = true
+        contact = contact
     )
 }

@@ -171,6 +171,7 @@ fun ShowEditContactScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    // Cancel button
                     FilledTonalButton(onClick = { openCancelAlertDialog = true}) {
                         Text(stringResource(R.string.annuler))
                         Icon(
@@ -180,6 +181,7 @@ fun ShowEditContactScreen(
                         )
                     }
 
+                    // Save button
                     FilledTonalButton(onClick = {
                         showError = true
                         val savedContact = Contact(

@@ -32,7 +32,7 @@ import com.example.contactapp.ui.components.ShowToast
 fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
     var screenCurrent: Screens by remember { mutableStateOf(Screens.LIST_CONTACTS) }
     var selectedContactId : Int? by remember { mutableStateOf<Int?>(null)}
-    val contacts by contactVM.contacts.collectAsState()
+    val contacts by contactVM.contacts.collectAsState() // fetch all users from DB
 
     // find the user by its id
     val contact : Contact? = contacts.find { it.contactId == selectedContactId }
@@ -53,14 +53,7 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
                 openContactPreview = false
                 screenCurrent = Screens.EDIT_CONTACT
             },
-            title = "${contact?.prenom} ${contact?.nom}",
-            body = """
-                ${contact?.age} ${stringResource(R.string.ans)}
-                ${contact?.telephone}
-                ${contact?.courriel}
-                ${contact?.adresse}
-            """.trimIndent(),
-            isFavorite = contact?.favori == true
+            contact = contact
         )
     }
 
@@ -69,7 +62,6 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
             contacts,
             onContactClicked = { id ->
                 selectedContactId = id
-                //screenCurrent = Screens.EDIT_CONTACT devrait aller dans le AlertDialogConfirm
                 openContactPreview = true
             },
             onAddClicked = {
