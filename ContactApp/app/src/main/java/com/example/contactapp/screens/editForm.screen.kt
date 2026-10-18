@@ -9,6 +9,12 @@ https://stackoverflow.com/questions/68573228/how-to-show-error-message-in-outlin
     -> isError et SupportingText pour preciser quel type d'erreur il y a
     -> utiliser un boolean pour valider les erreurs avant la sauvegarde
 
+https://developer.android.com/develop/ui/compose/quick-guides/content/auto-format-phone-number?hl=fr
+    -> suggestion de l'enseignant pour rajouter un keyboardtype pour le numero de telephone
+
+https://developer.android.com/reference/kotlin/androidx/compose/ui/text/input/KeyboardType
+    -> d'autres type de keyobard pour permettre differentes saisies
+
 === Note importante ===
 Bug rencontre : lorsque l'utilisateur utilise une photo de la galerie, le chemin est cree et sauvegarde correctement dans
     la BD. Par contre, lorsque l'appareil est reinitialise, le chemin n'existe plus, car il ne possede plus les memes droits
@@ -45,6 +51,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Delete
@@ -71,6 +78,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_9
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -157,12 +165,16 @@ fun ShowEditContactScreen(
         )
     }
 
-    // show possible errors in the form
+    // montrer les erreurs dans le form si un textField obligatoir n'est pas rempli avant la sauvegarde
     var showError by rememberSaveable {mutableStateOf(false)}
-    // Required fields when the contacts already exists
+
+    // textField obligatoire lors de la creation d'un utilisateur ou de sa modification
     val firstNameError: String? = if (!isExistingContact && firstName.isBlank()) "Le  prénom est obligatoire" else null
-    // Optional fields
-    // TODO : continue with validation
+    val lastNameError: String? = if (!isExistingContact && lastName.isBlank()) "Le  nom est obligatoire" else null
+    val phoneError: String? = if (!isExistingContact && phoneNumber.isBlank()) "Le  téléphone est obligatoire" else null
+
+    // bool qui flag s'il y a des erreurs dans un des 3 champs obligatoire
+    val hasErrors = firstNameError != null || lastNameError != null || phoneError != null
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -206,18 +218,22 @@ fun ShowEditContactScreen(
                     // Save button
                     FilledTonalButton(onClick = {
                         showError = true
-                        val savedContact = Contact(
-                            contactId = contact?.contactId ?: 0,
-                            prenom = firstName,
-                            nom = lastName,
-                            telephone = phoneNumber,
-                            courriel = email,
-                            adresse = address,
-                            age = age.toIntOrNull(),
-                            favori = isFavorite,
-                            photoUri = photoUri?.toString()
-                        )
-                        onContactSaved(savedContact)
+
+                        // on s'assure de ne pas avoir d'erreur de saisie
+                        if (!hasErrors) {
+                            val savedContact = Contact(
+                                contactId = contact?.contactId ?: 0,
+                                prenom = firstName,
+                                nom = lastName,
+                                telephone = phoneNumber,
+                                courriel = email,
+                                adresse = address,
+                                age = age.toIntOrNull(),
+                                favori = isFavorite,
+                                photoUri = photoUri?.toString()
+                            )
+                            onContactSaved(savedContact)
+                        }
                     }) {
                         Text(stringResource(R.string.sauvegarder))
                         Icon(
@@ -270,46 +286,47 @@ fun ShowEditContactScreen(
             }
 
             // contact's information
-            OutlinedTextField(
-                value = firstName,
+            TextInputRow(
+                input = firstName,
                 onValueChange = {firstName = it},
-                label = {Text(stringResource(R.string.prenomForm))},
-                modifier = Modifier.fillMaxWidth(),
-                isError = showError && firstNameError != null,
-                supportingText = {
-                    if (showError && firstNameError != null) Text(firstNameError)
-                }
+                rowName = stringResource(R.string.prenomForm),
+                errorMessage = firstNameError,
+                showError = showError,
             )
-            OutlinedTextField(
-                value = lastName,
+            TextInputRow(
+                input = lastName,
                 onValueChange = {lastName = it},
-                label = {Text(stringResource(R.string.nomForm))},
-                modifier = Modifier.fillMaxWidth()
+                rowName = stringResource(R.string.nomForm),
+                errorMessage = lastNameError,
+                showError = showError
             )
-            OutlinedTextField(
-                value = phoneNumber,
+            TextInputRow(
+                input = phoneNumber,
                 onValueChange = {phoneNumber = it},
-                label = {Text(stringResource(R.string.telephoneForm))},
-                modifier = Modifier.fillMaxWidth()
+                rowName = stringResource(R.string.telephoneForm),
+                errorMessage = phoneError,
+                showError = showError,
+                keyboard = KeyboardType.Phone
             )
-            OutlinedTextField(
-                value = age,
+            TextInputRow(
+                input = age,
                 onValueChange = {age = it},
-                label = {Text(stringResource(R.string.ageForm))},
-                modifier = Modifier.fillMaxWidth()
+                rowName = stringResource(R.string.ageForm),
+                keyboard = KeyboardType.Number
             )
-            OutlinedTextField(
-                value = email,
+            TextInputRow(
+                input = email,
                 onValueChange = {email = it},
-                label = {Text(stringResource(R.string.courrielForm))},
-                modifier = Modifier.fillMaxWidth()
+                rowName = stringResource(R.string.courrielForm),
+                keyboard = KeyboardType.Email
             )
-            OutlinedTextField(
-                value = address,
+            TextInputRow(
+                input = address,
                 onValueChange = {address = it},
-                label = {Text(stringResource(R.string.adresseForm))},
-                modifier = Modifier.fillMaxWidth()
+                rowName = stringResource(R.string.adresseForm)
             )
+
+            // check box pour le favori
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Start,
@@ -319,6 +336,30 @@ fun ShowEditContactScreen(
             }
         }
     }
+}
+
+@Composable
+private fun TextInputRow(
+    input: String,
+    onValueChange: (String) -> Unit,
+    rowName: String,
+    errorMessage: String? = null,
+    showError: Boolean = false,
+    keyboard: KeyboardType = KeyboardType.Text
+) {
+    val hasError = showError && errorMessage != null
+
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = input,
+        onValueChange = onValueChange,
+        label = {Text(rowName)},
+        isError = hasError,
+        supportingText = {
+            if (hasError) Text(errorMessage)
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = keyboard)
+    )
 }
 
 /*
