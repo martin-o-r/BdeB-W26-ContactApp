@@ -66,8 +66,7 @@ fun ContactApp(contactVM: ContactViewModel, modifier: Modifier = Modifier){
             },
             onAddClicked = {
                 selectedContactId = null
-                screenCurrent = Screens.EDIT_CONTACT },
-            modifier = modifier
+                screenCurrent = Screens.EDIT_CONTACT }
         )
 
         Screens.EDIT_CONTACT -> ShowEditContactScreen(
