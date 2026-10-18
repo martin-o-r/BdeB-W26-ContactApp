@@ -169,9 +169,9 @@ fun ShowEditContactScreen(
     var showError by rememberSaveable {mutableStateOf(false)}
 
     // textField obligatoire lors de la creation d'un utilisateur ou de sa modification
-    val firstNameError: String? = if (!isExistingContact && firstName.isBlank()) "Le  prénom est obligatoire" else null
-    val lastNameError: String? = if (!isExistingContact && lastName.isBlank()) "Le  nom est obligatoire" else null
-    val phoneError: String? = if (!isExistingContact && phoneNumber.isBlank()) "Le  téléphone est obligatoire" else null
+    val firstNameError: String? = if (firstName.isBlank()) "Le  prénom est obligatoire" else null
+    val lastNameError: String? = if (lastName.isBlank()) "Le  nom est obligatoire" else null
+    val phoneError: String? = if (phoneNumber.isBlank()) "Le  téléphone est obligatoire" else null
 
     // bool qui flag s'il y a des erreurs dans un des 3 champs obligatoire
     val hasErrors = firstNameError != null || lastNameError != null || phoneError != null
@@ -223,9 +223,9 @@ fun ShowEditContactScreen(
                         if (!hasErrors) {
                             val savedContact = Contact(
                                 contactId = contact?.contactId ?: 0,
-                                prenom = firstName,
-                                nom = lastName,
-                                telephone = phoneNumber,
+                                prenom = firstName.trim(),
+                                nom = lastName.trim(),
+                                telephone = phoneNumber.trim(),
                                 courriel = email,
                                 adresse = address,
                                 age = age.toIntOrNull(),
