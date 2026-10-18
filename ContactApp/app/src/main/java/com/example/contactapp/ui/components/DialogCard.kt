@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_9
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -89,9 +90,12 @@ fun ContactPreviewCard(
                     info = "${contact?.age}",
                     age = true
                 )
-                if(!contact?.telephone.isNullOrBlank()) ShowInfo(
+                ShowInfo(
                     icon = Icons.Default.Phone,
-                    info = "${contact.telephone}"
+                    info = NanpVisualTransformation()
+                        .filter(AnnotatedString(contact?.telephone!!.filter {it.isDigit()}))
+                        .text
+                        .text
                 )
                 if (!contact?.courriel.isNullOrBlank()) ShowInfo(
                     icon = Icons.Default.Email,

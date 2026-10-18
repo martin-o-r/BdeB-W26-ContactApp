@@ -24,4 +24,8 @@
     <string name="contactSupprimeToast">The contact has been succesfully deleted.</string>
     <string name="chercherContact">Search a contact</string>
     <string name="aucunContactTrouve">No contact found</string>
+    <string name="prenomObligatoire">First name is needed</string>
+    <string name="nomObligatoire">Last name is needed</string>
+    <string name="telephoneObligatoire">Phone number is needed</string>
+    <string name="telephone10">Phone number must be 10 digits</string>
 </resources>

@@ -15,6 +15,18 @@ https://developer.android.com/develop/ui/compose/quick-guides/content/auto-forma
 https://developer.android.com/reference/kotlin/androidx/compose/ui/text/input/KeyboardType
     -> d'autres type de keyobard pour permettre differentes saisies
 
+https://developer.android.com/develop/ui/compose/touch-input/scroll/scroll-modifiers
+    -> le formulaire est trop long, il faut ajouter un modifier scrollable pour permettre a l'utilisateur de "scroll"
+
+https://developer.android.com/develop/ui/compose/quick-guides/content/auto-format-phone-number?hl=fr
+    -> ressource donne par l'enseignant pour permettre un formattage du numero de telephone
+https://developer.android.com/reference/kotlin/androidx/compose/ui/text/input/VisualTransformation
+https://buffer.com/resources/highlighting-text-input-with-jetpack-compose/
+    -> le numero est sauve en format "1111111111111", tout colle a cause du .filter {it.Digit()}
+    -> Donc, avec VisualTransformation, il faut le replacer en format (111) 111-1111
+    -> AnnotedString implique un string construit de style differents
+    -> on strip de tout pour seulemnt garder les nombres et NanpVisualTransformation s'occupe de tout remettre en format standard
+
 === Note importante ===
 Bug rencontre : lorsque l'utilisateur utilise une photo de la galerie, le chemin est cree et sauvegarde correctement dans
     la BD. Par contre, lorsque l'appareil est reinitialise, le chemin n'existe plus, car il ne possede plus les memes droits
@@ -49,9 +61,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Delete
@@ -79,6 +94,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_9
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -89,6 +105,7 @@ import com.example.contactapp.data.source.sampleContacts
 import com.example.contactapp.ui.components.AlertDialogConfirm
 import com.example.contactapp.ui.components.ContactAvater
 import com.example.contactapp.ui.components.CreateImageUri
+import com.example.contactapp.ui.components.NanpVisualTransformation
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -109,7 +126,7 @@ fun ShowEditContactScreen(
     // contact data states
     var firstName: String by rememberSaveable { mutableStateOf(contact?.prenom ?: "") }
     var lastName: String by rememberSaveable { mutableStateOf(contact?.nom ?: "") }
-    var phoneNumber: String by rememberSaveable { mutableStateOf(contact?.telephone ?: "") }
+    var phoneNumber: String by rememberSaveable { mutableStateOf(contact?.telephone?.filter { it.isDigit() } ?: "") }
     var email: String by rememberSaveable { mutableStateOf(contact?.courriel ?: "") }
     var address: String by rememberSaveable {mutableStateOf(contact?.adresse ?: "")}
     var age: String by rememberSaveable {mutableStateOf(contact?.age?.toString() ?: "")}
@@ -169,9 +186,14 @@ fun ShowEditContactScreen(
     var showError by rememberSaveable {mutableStateOf(false)}
 
     // textField obligatoire lors de la creation d'un utilisateur ou de sa modification
-    val firstNameError: String? = if (firstName.isBlank()) "Le  prénom est obligatoire" else null
-    val lastNameError: String? = if (lastName.isBlank()) "Le  nom est obligatoire" else null
-    val phoneError: String? = if (phoneNumber.isBlank()) "Le  téléphone est obligatoire" else null
+    val numberPhoneDigits = 10
+    val firstNameError: String? = if (firstName.isBlank()) stringResource(R.string.prenomObligatoire) else null
+    val lastNameError: String? = if (lastName.isBlank()) stringResource(R.string.nomObligatoire) else null
+    val phoneError: String? = when {
+        phoneNumber.isBlank() -> stringResource(R.string.telephoneObligatoire)
+        phoneNumber.length < numberPhoneDigits -> stringResource(R.string.telephone10)
+        else -> null
+    }
 
     // bool qui flag s'il y a des erreurs dans un des 3 champs obligatoire
     val hasErrors = firstNameError != null || lastNameError != null || phoneError != null
@@ -248,6 +270,7 @@ fun ShowEditContactScreen(
     ) { innerPadding ->
         Column(modifier = Modifier
             .padding(innerPadding)
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp)
             .padding(top = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -302,11 +325,14 @@ fun ShowEditContactScreen(
             )
             TextInputRow(
                 input = phoneNumber,
-                onValueChange = {phoneNumber = it},
+                onValueChange = { newPhone ->
+                    phoneNumber = newPhone.filter { it.isDigit()}
+                },
                 rowName = stringResource(R.string.telephoneForm),
                 errorMessage = phoneError,
                 showError = showError,
-                keyboard = KeyboardType.Phone
+                keyboard = KeyboardType.Phone,
+                visualTransformation = NanpVisualTransformation()
             )
             TextInputRow(
                 input = age,
@@ -345,7 +371,8 @@ private fun TextInputRow(
     rowName: String,
     errorMessage: String? = null,
     showError: Boolean = false,
-    keyboard: KeyboardType = KeyboardType.Text
+    keyboard: KeyboardType = KeyboardType.Text,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     val hasError = showError && errorMessage != null
 
@@ -358,7 +385,8 @@ private fun TextInputRow(
         supportingText = {
             if (hasError) Text(errorMessage)
         },
-        keyboardOptions = KeyboardOptions(keyboardType = keyboard)
+        keyboardOptions = KeyboardOptions(keyboardType = keyboard),
+        visualTransformation = visualTransformation
     )
 }
 

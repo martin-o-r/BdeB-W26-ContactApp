@@ -54,6 +54,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_9
 import androidx.compose.ui.tooling.preview.Preview
@@ -63,6 +64,7 @@ import com.example.contactapp.data.models.Contact
 import com.example.contactapp.data.source.sampleContacts
 import com.example.contactapp.R
 import com.example.contactapp.ui.components.ContactAvater
+import com.example.contactapp.ui.components.NanpVisualTransformation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -208,7 +210,12 @@ private fun ContactRow(contact: Contact, onClick: () -> Unit) {
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
-            Text(contact.telephone)
+            //Text(contact.telephone)
+            Text(NanpVisualTransformation()
+                .filter(AnnotatedString(contact.telephone.filter{it.isDigit()}))
+                .text
+                .text
+            )
         }
         if (contact.favori == true) {
             Icon(

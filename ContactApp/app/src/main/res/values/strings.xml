@@ -23,4 +23,8 @@
     <string name="contactSupprimeToast">Le contact a été supprimé avec succès.</string>
     <string name="chercherContact">Chercher un contact</string>
     <string name="aucunContactTrouve">Aucun contact trouvé</string>
+    <string name="prenomObligatoire">Le  prénom est obligatoire</string>
+    <string name="nomObligatoire">Le  nom est obligatoire</string>
+    <string name="telephoneObligatoire">Le téléphone est obligatoire</string>
+    <string name="telephone10">Le numéro doit contenir 10 chiffres</string>
 </resources>
