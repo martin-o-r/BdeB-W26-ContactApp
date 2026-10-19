@@ -1,3 +1,12 @@
+/*
+https://www.youtube.com/watch?v=EHD5y_h7-JI
+https://developer.android.com/codelabs/jetpack-compose-theming#3
+https://material-foundation.github.io/material-theme-builder/
+    -> comment creer et utiliser un theme personnalise pour jetpack compose en utilisant Material Theme builder
+    -> instruction suivi du lien youtube pour comprendre comment integrer les nouveaux themes au projet
+    -> les fichiers genere par Material Theme Builder se trouvent a la la racine du projet
+* */
+
 package com.example.contactapp
 
 import android.os.Bundle
@@ -17,7 +26,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ContactAppTheme {
+            ContactAppTheme(dynamicColor = false) {
                 ContactApp(contactVM, Modifier.fillMaxSize())
             }
         }
