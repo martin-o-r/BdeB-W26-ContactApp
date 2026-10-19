@@ -1,3 +1,9 @@
+/*
+https://developer.android.com/develop/ui/compose/quick-guides/content/auto-format-phone-number?hl=fr
+    -> ressource donne par l'enseignant pour permettre un formattage du numero de telephone
+    -> code de la classe copie du site
+* */
+
 package com.example.contactapp.ui.components
 
 import androidx.compose.ui.text.AnnotatedString

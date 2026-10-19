@@ -61,7 +61,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -117,13 +116,13 @@ fun ShowEditContactScreen(
     onDeleteContact: (Int) -> Unit
 ) {
 
-    // if the contact "exist", then we can delete him
+    // verification si : nouveau contact || deja existant
     val isExistingContact = contact != null
 
-    // for camera feature and save to app storage
+    // pour feature de la camera et sauvegarde dans la memoire interne du telephone
     val context = LocalContext.current
 
-    // contact data states
+    // states pour les informations d'un contact
     var firstName: String by rememberSaveable { mutableStateOf(contact?.prenom ?: "") }
     var lastName: String by rememberSaveable { mutableStateOf(contact?.nom ?: "") }
     var phoneNumber: String by rememberSaveable { mutableStateOf(contact?.telephone?.filter { it.isDigit() } ?: "") }
@@ -133,9 +132,9 @@ fun ShowEditContactScreen(
     var isFavorite: Boolean by rememberSaveable { mutableStateOf(contact?.favori ?: false) }
     var photoUri: Uri? by rememberSaveable {mutableStateOf(contact?.photoUri?.toUri())}
 
-    // writing photo to URI
+    // photo vers URI
     var pendingUri: Uri? by rememberSaveable { mutableStateOf(null) }
-    // Camera feature
+    // camera feature
     val takePicture = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture(),
         onResult = { success ->
@@ -147,7 +146,7 @@ fun ShowEditContactScreen(
         }
     )
 
-    // Gallery feature
+    // galerie feature
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) { uri ->
@@ -156,7 +155,7 @@ fun ShowEditContactScreen(
         }
     }
 
-    // ALertDialog state to confirm aborting the form
+    // ALertDialog state pour confirmer sortir du formulaire
     var openCancelAlertDialog by rememberSaveable {mutableStateOf(false)}
     if (openCancelAlertDialog) {
         AlertDialogConfirm(
@@ -169,7 +168,7 @@ fun ShowEditContactScreen(
         )
     }
 
-    // AlertDialog state to confirm deleting a contact
+    // AlertDialog state pour confirmer la suppression du contact
     var openDeleteAlertDialog by rememberSaveable {mutableStateOf(false)}
     if (openDeleteAlertDialog && contact != null) {
         AlertDialogConfirm(
@@ -182,7 +181,7 @@ fun ShowEditContactScreen(
         )
     }
 
-    // montrer les erreurs dans le form si un textField obligatoir n'est pas rempli avant la sauvegarde
+    // montrer les erreurs dans le form si un textField obligatoire n'est pas rempli avant la sauvegarde
     var showError by rememberSaveable {mutableStateOf(false)}
 
     // textField obligatoire lors de la creation d'un utilisateur ou de sa modification
@@ -276,14 +275,14 @@ fun ShowEditContactScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)) {
 
-            // Contact's image
+            // image du contact
             ContactAvater(
                 photoUri = photoUri?.toString(),
                 firstName = firstName,
                 iconSize = 70.dp
             )
 
-            // Buttons for camera or gallery
+            // Buottons pour camera et galerie
             Row(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                 horizontalArrangement = Arrangement.Center) {
@@ -308,7 +307,7 @@ fun ShowEditContactScreen(
                 }
             }
 
-            // contact's information
+            // text field a remplir ou a modifier
             TextInputRow(
                 input = firstName,
                 onValueChange = {firstName = it},

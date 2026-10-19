@@ -67,7 +67,7 @@ fun ContactPreviewCard(
                     )
                 }
 
-                // Contact name as the title and if favorite
+                // nom du contact et ajout de l'icone favori
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -84,7 +84,7 @@ fun ContactPreviewCard(
                     }
                 }
 
-                // Contact information preview
+                // Information en "preview" dans le card
                 if (contact?.age != null && contact.age!! > 0) ShowInfo(
                     icon = Icons.Default.Person,
                     info = "${contact?.age}",
@@ -107,7 +107,7 @@ fun ContactPreviewCard(
                 )
             }
 
-            // buttons for the dialog : go back | modify
+            // boutton au bas du card : revenir | modifier
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

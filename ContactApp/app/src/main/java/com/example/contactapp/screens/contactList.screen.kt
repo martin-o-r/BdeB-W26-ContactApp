@@ -51,9 +51,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.isTraversalGroup
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_9
@@ -148,7 +145,7 @@ fun ShowContactListScreen(
                 expanded = isSearchExpanded,
                 onExpandedChange = {isSearchExpanded = it}
             ) {
-                // search results when the search is expanded
+                // resultat de la recherche d'un contact
                 if (querySearch.isNotBlank() && searchResults.isEmpty()) {
                     Box(
                         modifier = Modifier
@@ -173,7 +170,7 @@ fun ShowContactListScreen(
                 }
             }
 
-            // full list of contacts
+            // liste complete des contacts de la BD
             LazyColumn( contentPadding = PaddingValues(top = 75.dp)) {
                 items(items = contacts, key = {it.contactId}) { contact ->
                     ContactRow(
@@ -210,7 +207,6 @@ private fun ContactRow(contact: Contact, onClick: () -> Unit) {
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
-            //Text(contact.telephone)
             Text(NanpVisualTransformation()
                 .filter(AnnotatedString(contact.telephone.filter{it.isDigit()}))
                 .text
