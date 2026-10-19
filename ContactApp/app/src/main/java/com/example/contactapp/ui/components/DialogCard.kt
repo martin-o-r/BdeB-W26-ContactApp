@@ -53,7 +53,7 @@ fun ContactPreviewCard(
             colors = CardDefaults.elevatedCardColors()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                // shows the contact photo if available
+                // presentation de la photo du contact si existante
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()

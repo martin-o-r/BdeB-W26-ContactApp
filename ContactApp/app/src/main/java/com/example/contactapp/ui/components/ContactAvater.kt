@@ -42,7 +42,7 @@ fun ContactAvater(
         .background(MaterialTheme.colorScheme.primary),
         contentAlignment = Alignment.Center) {
 
-        // case : the contact has a photo
+        // case : le contact possede une photo
         if (isPhoto) {
             Image(
                 painter = rememberAsyncImagePainter(photoUri!!),
@@ -50,7 +50,7 @@ fun ContactAvater(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
-        } else { // case : no photo for the contact
+        } else { // case : le contact ne possede pas de photo
             val firstLetter = firstName.firstOrNull()?.uppercase() ?: ""
             val letterSize = iconSize.value
 
@@ -58,7 +58,7 @@ fun ContactAvater(
                 text = firstLetter,
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
-                fontSize = (letterSize * 0.6).sp
+                fontSize = (letterSize * 0.6).sp // explication en commentaire en haut de la page
             )
         }
     }
