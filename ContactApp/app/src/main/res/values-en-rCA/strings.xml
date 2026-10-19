@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ContactApp</string>
+    <string name="prenomForm">FIrst Name</string>
+    <string name="nomForm">Last name</string>
+    <string name="telephoneForm">Phone number</string>
+    <string name="courrielForm">Email</string>
+    <string name="ageForm">Age</string>
+    <string name="adresseForm">Address</string>
+    <string name="favoriForm">Favorite</string>
+    <string name="annuler">Cancel</string>
+    <string name="sauvegarder">Save</string>
+    <string name="modifier">Modifiy</string>
+    <string name="confirmer">Accept</string>
+    <string name="revenir">Go back</string>
+    <string name="camera">Camera</string>
+    <string name="galerie">Gallery</string>
+    <string name="annulerFormulaireTitre">Quit form</string>
+    <string name="confirmationQuitterFormulaire">Are you sure you want to quit the form?</string>
+    <string name="suppressionContactFormulaireTitre">Delete contact</string>
+    <string name="confirmationSuppressionContact">"Are you sure you want to delete "</string>
+    <string name="ans">years old</string>
+    <string name="contactModifieToast">The contact has been sucessfully saved.</string>
+    <string name="contactSupprimeToast">The contact has been succesfully deleted.</string>
+    <string name="chercherContact">Search a contact</string>
+    <string name="aucunContactTrouve">No contact found</string>
+    <string name="prenomObligatoire">First name is needed</string>
+    <string name="nomObligatoire">Last name is needed</string>
+    <string name="telephoneObligatoire">Phone number is needed</string>
+    <string name="telephone10">Phone number must be 10 digits</string>
+</resources>
