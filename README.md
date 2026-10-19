@@ -41,3 +41,10 @@ Un thème personnalisé a été créé à l'aide de Material Theme Builder. Le f
 Bien que cette application soit modeste, des fonctionnalités utiles pourraient être ajoutées dans le futur. Par exemple, une validation plus poussée de l'adresse entrée par l'utilisateur, ainsi que l'ouverture de Google Maps avec l'adresse en paramètre lorsque l'utilisateur la touche.
 
 On pourrait aussi permettre de lancer un appel en touchant l'icône à côté du numéro de téléphone d'un contact.
+
+## Exemple d'utilisation de l'application
+<img src="imageSamples/contactList.png" width="30%" alt="Contact list">
+<img src="imageSamples/searchBar.png" width="30%" alt="Search bar">
+<img src="imageSamples/previewCard.png" width="30%" alt="PreviewCard">
+<img src="imageSamples/infoObligatoire.png" width="30%" alt="informations obligatoires">
+<img src="imageSamples/alertDialog.png" width="30%" alt="AlertDialog">
